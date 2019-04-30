@@ -30,6 +30,23 @@ repositories {
     jcenter()
 }
 
+gradlePlugin {
+    plugins {
+        simplePlugin {
+            id = 'com.antonchaynikov.oneclickpublish'
+            implementationClass = 'com.antonchaynikov.oneclickpublish.OneClickPublish'
+        }
+    }
+}
+
+publishing {
+    repositories {
+        maven {            
+            url = "$buildDir/repo"
+        }
+    }
+}
+
 test {
     useJUnitPlatform {
         includeEngines 'spek2'
