@@ -9,10 +9,14 @@ class OneClickPublish : Plugin<Project> {
     override fun apply(target: Project) {
         target.extensions.create(PLUGIN_EXTENSION_NAME, PluginSettings::class.java)
 
-        configureDeployTask(target, TASK_NAME_DEPLOY_MAJOR, VersionType.MAJOR)
-        configureDeployTask(target, TASK_NAME_DEPLOY_MINOR, VersionType.MINOR)
-        configureDeployTask(target, TASK_NAME_DEPLOY_PATCH, VersionType.PATCH)
-        configureDeployTask(target, TASK_NAME_DEPLOY_BUILD, VersionType.BUILD)
+        mapOf(
+            TASK_NAME_DEPLOY_MAJOR to VersionType.MAJOR,
+            TASK_NAME_DEPLOY_MINOR to VersionType.MINOR,
+            TASK_NAME_DEPLOY_PATCH to VersionType.PATCH,
+            TASK_NAME_DEPLOY_BUILD to VersionType.BUILD
+        ).forEach {
+            configureDeployTask(target, it.key, it.value)
+        }
     }
 
     private fun configureDeployTask(target: Project, taskName: String, versionType: VersionType) {

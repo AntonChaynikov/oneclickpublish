@@ -44,7 +44,7 @@ publishing {
         maven {            
             url = "$buildDir/repo"
         }
-    }
+    }    
 }
 
 test {

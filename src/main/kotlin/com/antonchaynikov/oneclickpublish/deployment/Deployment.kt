@@ -22,7 +22,13 @@ class Deployment(vararg stages: Stage) {
             }
         } catch (e: Exception) {
             while (executedStages.isNotEmpty()) {
-                executedStages.pop().revert()
+                try {
+                    executedStages.pop().revert()
+                } catch (undoErr: Exception) {
+                    undoErr.printStackTrace()
+                    // error happened, no point to continue
+                    executedStages.clear()
+                }
             }
             throw e
         }

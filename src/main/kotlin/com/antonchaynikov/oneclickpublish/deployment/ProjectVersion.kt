@@ -31,7 +31,7 @@ class ProjectVersion(private val project: Project, private val versionFile: File
         }
 
         FileOutputStream(versionFile).use {
-            versionProperties.store(it, "Increased fieldName")
+            versionProperties.store(it, "Increased $fieldName")
         }
     }
 

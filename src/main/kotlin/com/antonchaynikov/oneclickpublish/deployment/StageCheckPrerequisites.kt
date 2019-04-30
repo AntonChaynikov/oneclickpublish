@@ -26,6 +26,7 @@ class StageCheckPrerequisites(private val project: Project, private val branchNa
     }
 
     private fun checkIsOnCorrectBranch(branchName: String) {
+        // get current branch name
         val execResult = ShellCommand(project.rootDir, "git", "rev-parse", "--abbrev-ref", "HEAD").execute()
         if (execResult.isSuccess()) {
             val currentBranchName = execResult.messages[0]
