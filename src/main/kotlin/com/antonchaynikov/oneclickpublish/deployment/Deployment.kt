@@ -8,9 +8,7 @@ class Deployment(vararg stages: Stage) {
     private val executedStages = ArrayDeque<Stage>()
 
     init {
-        deployStages.apply {
-            stages.forEach { addLast(it) }
-        }
+        stages.forEach { deployStages.addLast(it) }
     }
 
     fun deploy() {
