@@ -28,7 +28,7 @@ class OneClickPublish : Plugin<Project> {
                 projectVersion.init()
 
                 Deployment(
-                    StageCheckPrerequisites(target, settings.branchName),
+                    StageCheckPrerequisites(target, settings.branchNames),
                     StageIncrementVersion(projectVersion, versionType),
                     StageCommitChanges(target, projectVersion.getVersionFilePath()),
                     StageAddTag(target, projectVersion),

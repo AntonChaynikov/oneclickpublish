@@ -5,16 +5,15 @@ import org.gradle.api.Project
 import java.lang.Exception
 import java.lang.IllegalStateException
 
-class StageCheckPrerequisites(private val project: Project, private val branchName: String) : Stage {
+class StageCheckPrerequisites(private val project: Project, private val branchNames: List<String>) : Stage {
 
     override fun execute() {
         checkAllChangesCommitted()
-        checkIsOnCorrectBranch(branchName)
+        checkIsOnCorrectBranch(branchNames)
     }
 
     override fun revert() {
         // Nothing to revert
-
         System.out.println("All changes reverted")
     }
 
@@ -25,14 +24,15 @@ class StageCheckPrerequisites(private val project: Project, private val branchNa
         }
     }
 
-    private fun checkIsOnCorrectBranch(branchName: String) {
+    private fun checkIsOnCorrectBranch(branchNames: List<String>) {
         // get current branch name
         val execResult = ShellCommand(project.rootDir, "git", "rev-parse", "--abbrev-ref", "HEAD").execute()
         if (execResult.isSuccess()) {
             val currentBranchName = execResult.messages[0]
-            if (branchName != currentBranchName) {
+
+            if (!branchNames.isEmpty() && !branchNames.contains(currentBranchName)) {
                 throw IllegalStateException(
-                        "Can only deploy from $branchName branch. Current branch: $currentBranchName")
+                        "Can't deploy from $currentBranchName branch")
             }
         } else {
             throw Exception("Failed to check current branch")
