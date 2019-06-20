@@ -8,18 +8,18 @@ class StageAddTag(private val project: Project, private val projectVersion: Proj
 
         val addTagResult = ShellCommand(
                 project.rootDir,
-                "git", "tag", "-a", projectVersion.getFormattedVersion(), "-m", "Tag added automatically via gradle task")
+                "git", "tag", "-a", projectVersion.getTagName(), "-m", "Tag added automatically via gradle task")
                 .execute()
 
         if (!addTagResult.isSuccess()) {
-            throw Exception("Failed to add tag ${projectVersion.getFormattedVersion()}. Does it already exist?")
+            throw Exception("Failed to add tag ${projectVersion.getTagName()}. Does it already exist?")
         }
     }
 
     override fun revert() {
-        System.out.println("Deleting tag ${projectVersion.getFormattedVersion()}")
+        System.out.println("Deleting tag ${projectVersion.getTagName()}")
 
-        val result = ShellCommand(project.rootDir, "git", "tag", "-d", projectVersion.getFormattedVersion())
+        val result = ShellCommand(project.rootDir, "git", "tag", "-d", projectVersion.getTagName())
                 .execute()
 
         if (!result.isSuccess()) {

@@ -12,8 +12,7 @@ class OneClickPublish : Plugin<Project> {
         mapOf(
             TASK_NAME_DEPLOY_MAJOR to VersionType.MAJOR,
             TASK_NAME_DEPLOY_MINOR to VersionType.MINOR,
-            TASK_NAME_DEPLOY_PATCH to VersionType.PATCH,
-            TASK_NAME_DEPLOY_BUILD to VersionType.BUILD
+            TASK_NAME_DEPLOY_PATCH to VersionType.PATCH
         ).forEach {
             configureDeployTask(target, it.key, it.value)
         }
@@ -21,7 +20,7 @@ class OneClickPublish : Plugin<Project> {
 
     private fun configureDeployTask(target: Project, taskName: String, versionType: VersionType) {
         val settings = target.getPluginSettings()
-        val projectVersion = ProjectVersion(target, getVersionsFile(target.rootDir, settings.versionFilePath))
+        val projectVersion = ProjectVersion(target, VERSIONS_FILE_PATH)
 
         target.task(taskName).apply {
             group = TASK_GROUP_NAME
@@ -31,7 +30,7 @@ class OneClickPublish : Plugin<Project> {
                 Deployment(
                     StageCheckPrerequisites(target, settings.branchName),
                     StageIncrementVersion(projectVersion, versionType),
-                    StageCommitChanges(target, settings.versionFilePath),
+                    StageCommitChanges(target, projectVersion.getVersionFilePath()),
                     StageAddTag(target, projectVersion),
                     StagePushToRemote(target, projectVersion, settings.remoteRepoName)
                 ).deploy()
