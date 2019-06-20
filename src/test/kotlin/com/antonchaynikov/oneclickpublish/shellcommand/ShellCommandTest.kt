@@ -33,7 +33,7 @@ internal class ShellCommandTest : Spek({
             lateinit var shellCommand: ShellCommand
             lateinit var result: ExecResult
 
-            Given("An 'false' command") {
+            Given("A 'false' command") {
                 shellCommand = ShellCommand(File("."),"false")
             }
 
