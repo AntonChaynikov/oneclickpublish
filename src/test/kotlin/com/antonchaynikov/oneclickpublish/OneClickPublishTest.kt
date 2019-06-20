@@ -22,11 +22,10 @@ internal class OneClickPublishTest: Spek({
                 project.pluginManager.apply("com.antonchaynikov.oneclickpublish")
             }
 
-            listOf<String>(
-                "deployNewMajorVersion",
-                "deployNewMinorVersion",
-                "deployNewPatchVersion",
-                "deployNewBuildVersion"
+            listOf(
+                "deployMajorVersion",
+                "deployMinorVersion",
+                "deployPatchVersion"
             ).forEach {
                 Then("$it task in group $TASK_GROUP_NAME should be created") {
                     val task = project.tasks.findByName(it)
